@@ -44,6 +44,16 @@ module.exports = {
       provider: infuraProvider("ropsten"),
       network_id: 3,
     },
+    testnet: {
+      provider: infuraProvider("evmtestnet"),
+      network_id: 71,
+      gas: 10000000,
+    },
+    espace: {
+      provider: infuraProvider("evm"),
+      network_id: 1030,
+      gas: 10000000,
+    },
   },
   mocha: {
     timeout: 60000, // prevents tests from failing when pc is under heavy load
@@ -64,7 +74,7 @@ function infuraProvider(network) {
     }
     return new HDWalletProvider(
       config.MNEMONIC,
-      `https://${network}.infura.io/v3/${config.INFURA_KEY}`
+      `http://${network}.confluxrpc.com/${config.INFURA_KEY}`
     );
   };
 }
