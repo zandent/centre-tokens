@@ -17,3 +17,5 @@ ganache-blockchain-log.txt
 yarn-error.log
 @types/generated/
 config.js
+hardhat.config.js
+verify.js

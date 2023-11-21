@@ -38,7 +38,7 @@ module.exports = async (deployer, network) => {
   console.log(`Proxy Admin:     ${proxyAdminAddress}`);
   console.log(`FiatTokenProxy:  ${proxyContractAddress}`);
   console.log(`FiatTokenV2_1:   ${fiatTokenV2_1.address}`);
-  console.log(`Lost & Found:    ${lostAndFoundAddress.address}`);
+  console.log(`Lost & Found:    ${lostAndFoundAddress}`);
 
   if (!proxyAdminAddress) {
     throw new Error("PROXY_ADMIN_ADDRESS must be provided in config.js");
@@ -57,4 +57,36 @@ module.exports = async (deployer, network) => {
   console.log(
     `>>>>>>> Deployed V2_1Upgrader at ${v2_1Upgrader.address} <<<<<<<`
   );
+  if (!some(["development", "coverage"], (v) => network.includes(v))) {
+    const FiatTokenV1 = artifacts.require("FiatTokenV1");
+    let proxyContractAddressInstance = await FiatTokenV1.at(
+      proxyContractAddress
+    );
+    await proxyContractAddressInstance.configureMinter(
+      deployer.provider.getAddress(0),
+      "200000"
+    );
+    console.log(
+      `>>>>>>> Set ${deployer.provider.getAddress(
+        0
+      )} as minter. Allowance: 0.2 <<<<<<<`
+    );
+    await proxyContractAddressInstance.mint(v2_1Upgrader.address, "200000");
+    console.log(
+      `>>>>>>> Mint 0.2 to v2_1Upgrader ${v2_1Upgrader.address} <<<<<<<`
+    );
+    proxyContractAddressInstance = await FiatTokenProxy.at(
+      proxyContractAddress
+    );
+    await proxyContractAddressInstance.changeAdmin(v2_1Upgrader.address, {
+      from: deployer.provider.getAddress(1),
+    });
+    console.log(
+      `>>>>>>> Admin changed to v2_1Upgrader ${v2_1Upgrader.address} on proxy ${proxyContractAddress} <<<<<<<`
+    );
+    // await v2_1Upgrader.upgrade();
+    // console.log(
+    //   `>>>>>>> V2_1Upgrader upgraded for proxy ${proxyContractAddress} at impl ${fiatTokenV2_1.address} <<<<<<<`
+    // );
+  }
 };

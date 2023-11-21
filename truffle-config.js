@@ -48,6 +48,11 @@ module.exports = {
       provider: infuraProvider("evmtestnet"),
       network_id: 71,
       gas: 10000000,
+      verify: {
+        apiUrl: "https://evmapi-testnet.confluxscan.net/api",
+        apiKey: "MY_API_KEY",
+        explorerUrl: "https://evmapi-testnet.confluxscan.net",
+      },
     },
     espace: {
       provider: infuraProvider("evm"),
@@ -59,7 +64,7 @@ module.exports = {
     timeout: 60000, // prevents tests from failing when pc is under heavy load
     reporter: "Spec",
   },
-  plugins: ["solidity-coverage"],
+  plugins: ["solidity-coverage", "truffle-plugin-verify"],
 };
 
 function infuraProvider(network) {
@@ -68,13 +73,17 @@ function infuraProvider(network) {
       console.error("A valid MNEMONIC must be provided in config.js");
       process.exit(1);
     }
-    if (!config.INFURA_KEY) {
+    let infuraKey = config.INFURA_KEY;
+    if (network === "evmtestnet") {
+      infuraKey = config.INFURA_KEY_TESTNET;
+    }
+    if (!infuraKey) {
       console.error("A valid INFURA_KEY must be provided in config.js");
       process.exit(1);
     }
     return new HDWalletProvider(
-      config.MNEMONIC,
-      `http://${network}.confluxrpc.com/${config.INFURA_KEY}`
+      [config.MNEMONIC, config.MNEMONIC2],
+      `http://${network}.confluxrpc.com/${infuraKey}`
     );
   };
 }

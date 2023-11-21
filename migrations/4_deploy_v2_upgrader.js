@@ -43,8 +43,38 @@ module.exports = async (deployer, network) => {
     proxyContractAddress,
     fiatTokenV2.address,
     proxyAdminAddress,
-    "USD Coin"
+    "HKD Coin"
   );
 
   console.log(`>>>>>>> Deployed V2Upgrader at ${v2Upgrader.address} <<<<<<<`);
+  if (!some(["development", "coverage"], (v) => network.includes(v))) {
+    const FiatTokenV1 = artifacts.require("FiatTokenV1");
+    let proxyContractAddressInstance = await FiatTokenV1.at(
+      proxyContractAddress
+    );
+    await proxyContractAddressInstance.configureMinter(
+      deployer.provider.getAddress(0),
+      "200000"
+    );
+    console.log(
+      `>>>>>>> Set ${deployer.provider.getAddress(
+        0
+      )} as minter. Allowance: 0.2 <<<<<<<`
+    );
+    await proxyContractAddressInstance.mint(v2Upgrader.address, "200000");
+    console.log(`>>>>>>> Mint 0.2 to v2Upgrader ${v2Upgrader.address} <<<<<<<`);
+    proxyContractAddressInstance = await FiatTokenProxy.at(
+      proxyContractAddress
+    );
+    await proxyContractAddressInstance.changeAdmin(v2Upgrader.address, {
+      from: deployer.provider.getAddress(1),
+    });
+    console.log(
+      `>>>>>>> Admin changed to v2Upgrader ${v2Upgrader.address} on proxy ${proxyContractAddress} <<<<<<<`
+    );
+    // await v2Upgrader.upgrade();
+    // console.log(
+    //   `>>>>>>> V2Upgrader upgraded for proxy ${proxyContractAddress} at impl ${fiatTokenV2.address} <<<<<<<`
+    // );
+  }
 };
