@@ -82,7 +82,7 @@ function infuraProvider(network) {
       process.exit(1);
     }
     return new HDWalletProvider(
-      [config.MNEMONIC, config.MNEMONIC2],
+      [config.MNEMONIC, config.MNEMONIC2, config.MNEMONIC3],
       `http://${network}.confluxrpc.com/${infuraKey}`
     );
   };

@@ -79,7 +79,7 @@ module.exports = async (deployer, network) => {
       proxyContractAddress
     );
     await proxyContractAddressInstance.changeAdmin(v2_1Upgrader.address, {
-      from: deployer.provider.getAddress(1),
+      from: deployer.provider.getAddress(2),
     });
     console.log(
       `>>>>>>> Admin changed to v2_1Upgrader ${v2_1Upgrader.address} on proxy ${proxyContractAddress} <<<<<<<`
