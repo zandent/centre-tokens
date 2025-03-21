@@ -19,3 +19,6 @@ yarn-error.log
 config.js
 hardhat.config.js
 verify.js
+flattenContracts/
+configaxcnhbackup.js
+configaxhkdbackup.js

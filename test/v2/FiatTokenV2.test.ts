@@ -15,16 +15,16 @@ contract("FiatTokenV2", (accounts) => {
   beforeEach(async () => {
     fiatToken = await FiatTokenV2.new();
     await fiatToken.initialize(
-      "HKD Coin",
-      "HKDC",
-      "HKD",
+      "AxCNH Coin",
+      "AxCNHC",
+      "AxCNH",
       6,
       fiatTokenOwner,
       fiatTokenOwner,
       fiatTokenOwner,
       fiatTokenOwner
     );
-    await fiatToken.initializeV2("HKD Coin", { from: fiatTokenOwner });
+    await fiatToken.initializeV2("AxCNH Coin", { from: fiatTokenOwner });
   });
 
   behavesLikeFiatTokenV2(accounts, () => fiatToken, fiatTokenOwner);
@@ -39,7 +39,7 @@ export function behavesLikeFiatTokenV2(
 
   beforeEach(async () => {
     domainSeparator = makeDomainSeparator(
-      "HKD Coin",
+      "AxCNH Coin",
       "2",
       1, // hardcoded to 1 because of ganache bug: https://github.com/trufflesuite/ganache/issues/1643
       getFiatToken().address
@@ -70,7 +70,7 @@ export function behavesLikeFiatTokenV2(
   it("disallows calling initializeV2 twice", async () => {
     // It was called once in beforeEach. Try to call again.
     await expectRevert(
-      getFiatToken().initializeV2("Not HKD Coin", { from: fiatTokenOwner })
+      getFiatToken().initializeV2("Not AxCNH Coin", { from: fiatTokenOwner })
     );
   });
 }

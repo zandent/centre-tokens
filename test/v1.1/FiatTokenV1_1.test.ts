@@ -14,9 +14,9 @@ contract("FiatTokenV1_1", (accounts) => {
     fiatToken = await FiatTokenV1_1.new();
     const owner = accounts[0];
     await fiatToken.initialize(
-      "HKD Coin",
-      "HKDC",
-      "HKD",
+      "AxCNH Coin",
+      "AxCNHC",
+      "AxCNH",
       6,
       owner,
       owner,

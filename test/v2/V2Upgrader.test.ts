@@ -50,9 +50,9 @@ contract("V2Upgrader", (accounts) => {
       );
       expect(await upgrader.helper()).not.to.be.empty;
       expect(await upgrader.newProxyAdmin()).to.equal(originalProxyAdmin);
-      expect(await upgrader.newName()).to.equal("HKD Coin");
+      expect(await upgrader.newName()).to.equal("AxCNH Coin");
 
-      // Transfer 0.2 HKDC to the contract
+      // Transfer 0.2 AxCNHC to the contract
       await proxyAsV1.transfer(upgrader.address, 2e5, { from: minter });
 
       // Transfer admin role to the contract
@@ -72,7 +72,7 @@ contract("V2Upgrader", (accounts) => {
       );
 
       // Test that things work as expected
-      expect(await proxyAsV2.name()).to.equal("HKD Coin");
+      expect(await proxyAsV2.name()).to.equal("AxCNH Coin");
       expect((await proxyAsV2.balanceOf(upgrader.address)).toNumber()).to.equal(
         0
       );
@@ -158,11 +158,11 @@ contract("V2Upgrader", (accounts) => {
         fiatTokenProxy.address,
         fiatTokenV1_1.address, // provide V1.1 implementation instead of V2
         originalProxyAdmin,
-        "HKD Coin",
+        "AxCNH Coin",
         { from: upgraderOwner }
       );
 
-      // Transfer 0.2 HKDC to the contract
+      // Transfer 0.2 AxCNHC to the contract
       await proxyAsV1.transfer(upgrader.address, 2e5, { from: minter });
 
       // Transfer admin role to the contract
@@ -193,11 +193,11 @@ contract("V2Upgrader", (accounts) => {
         fiatTokenProxy.address,
         v2Implementation.address,
         originalProxyAdmin,
-        "HKD Coin",
+        "AxCNH Coin",
         { from: upgraderOwner }
       );
 
-      // Transfer 0.2 HKDC to the contract
+      // Transfer 0.2 AxCNHC to the contract
       await proxyAsV1.transfer(upgrader.address, 2e5, { from: minter });
 
       // Transfer admin role to the contract

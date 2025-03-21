@@ -19,7 +19,9 @@
     "solhint": "solhint 'contracts/**/*.sol'",
     "precommit": "yarn typechain && yarn fmt && yarn typecheck && yarn lint && yarn solhint",
     "slither": "slither --solc-disable-warnings --disable-color --exclude-dependencies .",
-    "migrate": "truffle migrate --interactive"
+    "migrate": "truffle migrate --interactive",
+    "verify": "truffle run verify",
+    "flat": "truffle-flattener"
   },
   "repository": {
     "type": "git",
@@ -32,7 +34,9 @@
     "url": "https://github.com/centrehq/centre-tokens/issues"
   },
   "homepage": "https://github.com/centrehq/centre-tokens#readme",
-  "dependencies": {},
+  "dependencies": {
+    "truffle-flattener": "^1.6.0"
+  },
   "devDependencies": {
     "@openzeppelin/contracts": "^3.1.0",
     "@truffle/hdwallet-provider": "^1.0.39",

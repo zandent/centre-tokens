@@ -33,7 +33,7 @@ import { V2UpgraderHelper } from "./V2UpgraderHelper.sol";
 
 /**
  * @title V2 Upgrader
- * @notice Performs HKDC v2 upgrade, and runs a basic sanity test in a single
+ * @notice Performs AxCNHC v2 upgrade, and runs a basic sanity test in a single
  * atomic transaction, rolling back if any issues are found. This may be
  * overkill, but the peace of mind is worth the gas spent. By performing the
  * upgrade atomically, it ensures that there is no disruption of service if the
@@ -54,7 +54,7 @@ contract V2Upgrader is Ownable {
      * @param proxy             FiatTokenProxy contract
      * @param implementation    FiatTokenV2 implementation contract
      * @param newProxyAdmin     Grantee of proxy admin role after upgrade
-     * @param newName           New ERC20 name (e.g. "HKD//C" -> "HKD Coin")
+     * @param newName           New ERC20 name (e.g. "AxCNH//C" -> "AxCNH Coin")
      */
     constructor(
         FiatTokenProxy proxy,
@@ -122,7 +122,7 @@ contract V2Upgrader is Ownable {
 
         // Check that this contract sufficient funds to run the tests
         uint256 contractBal = _helper.balanceOf(address(this));
-        require(contractBal >= 2e5, "V2Upgrader: 0.2 HKDC needed");
+        require(contractBal >= 2e5, "V2Upgrader: 0.2 AxCNHC needed");
 
         uint256 callerBal = _helper.balanceOf(msg.sender);
 
@@ -184,8 +184,8 @@ contract V2Upgrader is Ownable {
             "V2Upgrader: approve/transferFrom test failed"
         );
 
-        // Transfer any remaining HKDC to the caller
-        withdrawHKDC();
+        // Transfer any remaining AxCNHC to the caller
+        withdrawAxCNHC();
 
         // Tear down
         _helper.tearDown();
@@ -193,15 +193,15 @@ contract V2Upgrader is Ownable {
     }
 
     /**
-     * @notice Withdraw any HKDC in the contract
+     * @notice Withdraw any AxCNHC in the contract
      */
-    function withdrawHKDC() public onlyOwner {
-        IERC20 hkdc = IERC20(address(_proxy));
-        uint256 balance = hkdc.balanceOf(address(this));
+    function withdrawAxCNHC() public onlyOwner {
+        IERC20 axcnhc = IERC20(address(_proxy));
+        uint256 balance = axcnhc.balanceOf(address(this));
         if (balance > 0) {
             require(
-                hkdc.transfer(msg.sender, balance),
-                "V2Upgrader: failed to withdraw HKDC"
+                axcnhc.transfer(msg.sender, balance),
+                "V2Upgrader: failed to withdraw AxCNHC"
             );
         }
     }

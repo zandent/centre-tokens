@@ -39,7 +39,7 @@ module.exports = async (deployer, network) => {
       from: deployer.provider.getAddress(0),
     });
     console.log(
-      `>>>>>>> transferred Token Ownership to ${masterMinterAddress} <<<<<<<`
+      `>>>>>>> transferred Token Ownership to ${ownerAddress} <<<<<<<`
     );
   }
 };

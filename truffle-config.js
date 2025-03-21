@@ -58,6 +58,11 @@ module.exports = {
       provider: infuraProvider("evm"),
       network_id: 1030,
       gas: 10000000,
+      verify: {
+        apiUrl: "https://evmapi.confluxscan.net/api",
+        apiKey: "MY_API_KEY",
+        explorerUrl: "https://evmapi.confluxscan.net",
+      },
     },
   },
   mocha: {
@@ -82,7 +87,7 @@ function infuraProvider(network) {
       process.exit(1);
     }
     return new HDWalletProvider(
-      [config.MNEMONIC, config.MNEMONIC2, config.MNEMONIC3],
+      config.MNEMONIC,
       `http://${network}.confluxrpc.com/${infuraKey}`
     );
   };
